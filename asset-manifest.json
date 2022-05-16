@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/IasonasJase/React-Project.git/static/css/main.938ac339.css",
+    "main.js": "/IasonasJase/React-Project.git/static/js/main.a16cd5b5.js",
+    "static/js/787.a2bf511c.chunk.js": "/IasonasJase/React-Project.git/static/js/787.a2bf511c.chunk.js",
+    "index.html": "/IasonasJase/React-Project.git/index.html",
+    "main.938ac339.css.map": "/IasonasJase/React-Project.git/static/css/main.938ac339.css.map",
+    "main.a16cd5b5.js.map": "/IasonasJase/React-Project.git/static/js/main.a16cd5b5.js.map",
+    "787.a2bf511c.chunk.js.map": "/IasonasJase/React-Project.git/static/js/787.a2bf511c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.938ac339.css",
+    "static/js/main.a16cd5b5.js"
+  ]
+}
