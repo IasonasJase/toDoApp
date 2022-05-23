@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const ListItem = (props) => {
-  const [input, setInput] = useState("");
-
-  useEffect(() => {
-    setInput(props.item.title);
-  }, []);
-
+  const [input, setInput] = useState(props.item.title);
   const handleInput = (e) => {
     setInput(e.target.value);
   };
@@ -14,7 +9,13 @@ const ListItem = (props) => {
   const { item } = props;
 
   return (
-    <li className="todo-collection__item">
+    <li
+      className={
+        !item.completed
+          ? "todo-collection__item "
+          : "todo-collection__item fade"
+      }
+    >
       <span
         className={
           !item.edited
@@ -57,12 +58,33 @@ const ListItem = (props) => {
       </button>
       <button
         onClick={() => props.handleDelete(item.id)}
-        className="button
-          button--todo
-          button--delete
-          "
+        className="button button--todo button--delete"
       >
         Delete
+      </button>
+      <button
+        onClick={() => {
+          props.handleComplete(input, item.id);
+        }}
+        className={
+          !item.completed
+            ? "button button--todo button--delete"
+            : "button button--todo button--delete hidden"
+        }
+      >
+        Complete
+      </button>
+      <button
+        onClick={() => {
+          props.handleUncomplete(input, item.id);
+        }}
+        className={
+          !item.completed
+            ? "button button--todo button--delete hidden"
+            : "button button--todo button--delete "
+        }
+      >
+        Complete
       </button>
     </li>
   );

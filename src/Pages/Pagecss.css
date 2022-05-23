@@ -157,7 +157,7 @@
   font-size: 1.1rem;
   display: grid;
   grid-row-gap: 1rem;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto;
 }
 
 .todo-collection__item__title {
@@ -170,6 +170,11 @@
 
 .hidden {
   display: none;
+}
+
+.fade {
+  opacity: 0.2;
+  text-decoration: line-through;
 }
 
 .shake-horizontal {

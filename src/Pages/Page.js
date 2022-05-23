@@ -2,22 +2,15 @@ import React, { useEffect, useState } from "react";
 import "../Pages/Pagecss.css";
 import ListItem from "./ListItem";
 
-let counter = 10;
 const DoPage = () => {
   const [active, setActive] = useState(false);
-  const [items, setItems] = useState([]);
-  const [currentItem, setCurrentItem] = useState({
-    id: "",
-    title: "",
-    edited: "",
-  });
+  const [items, setItems] = useState(
+    JSON.parse(localStorage.getItem("toDo")) || []
+  );
+  const [toDo, setToDo] = useState("");
 
   const handleInput = (e) => {
-    setCurrentItem({
-      id: counter++,
-      title: e.target.value,
-      edited: false,
-    });
+    setToDo(e.target.value);
   };
 
   const handleEdit = (key) => {
@@ -34,40 +27,47 @@ const DoPage = () => {
         item.id === key ? { ...item, edited: false, title: value } : item
       )
     );
-
-    const tdos = JSON.parse(localStorage.getItem("toDo")) || [];
-    console.log("key", key);
-    console.log("tdos array", tdos);
-    tdos[key] = { id: key, title: value, edited: false };
-    localStorage.setItem("toDo", JSON.stringify(tdos));
   };
 
   const handleDelete = (key) => {
     const filteredItems = items.filter((item) => item.id !== key);
-
     setItems(filteredItems);
-    localStorage.setItem("toDo", JSON.stringify(filteredItems));
+  };
+
+  const handleComplete = (value, key) => {
+    setItems((prevState) =>
+      prevState.map((item) =>
+        item.id === key ? { ...item, completed: true } : item
+      )
+    );
+  };
+
+  const handleUncomplete = (value, key) => {
+    setItems((prevState) =>
+      prevState.map((item) =>
+        item.id === key && item.completed === true
+          ? { ...item, completed: false }
+          : item
+      )
+    );
   };
 
   const addtoDo = (e) => {
     e.preventDefault();
-    const newItem = currentItem;
-    console.log(newItem);
+    const lastElement = items[items.length - 1] || {};
+    let lastId = lastElement.id || 0;
+
+    const newItem = {
+      id: lastId + 1,
+      title: toDo,
+      edited: false,
+      completed: false,
+    };
     if (newItem.title !== "") {
       const newItems = [...items, newItem];
-      if (items.length !== 0) {
-      }
-
-      const tdos = JSON.parse(localStorage.getItem("toDo")) || [];
-      tdos.push(newItem);
-      localStorage.setItem("toDo", JSON.stringify(tdos));
-
       setActive(false);
       setItems(newItems);
-      setCurrentItem({
-        id: "",
-        title: "",
-      });
+      setToDo("");
     } else {
       setActive(true);
       setTimeout(() => {
@@ -77,8 +77,8 @@ const DoPage = () => {
   };
 
   useEffect(() => {
-    setItems(JSON.parse(localStorage.getItem("toDo")) || []);
-  }, []);
+    localStorage.setItem("toDo", JSON.stringify(items));
+  }, [items]);
 
   const fetchingData = async () => {
     const url = "https://jsonplaceholder.typicode.com/todos/";
@@ -87,7 +87,7 @@ const DoPage = () => {
     const filteredData = data.filter((item) => item.id <= 9);
     const mapedData = filteredData.map((item) => {
       delete item.userId;
-      delete item.completed;
+
       return item;
     });
 
@@ -96,7 +96,6 @@ const DoPage = () => {
 
   const clearData = () => {
     setItems([]);
-    localStorage.removeItem("toDo");
   };
 
   return (
@@ -115,7 +114,7 @@ const DoPage = () => {
             type="text"
             id="input--add"
             className="input"
-            value={currentItem.title}
+            value={toDo}
             placeholder="e.g. Go to the gym"
             onChange={handleInput}
           />
@@ -141,6 +140,8 @@ const DoPage = () => {
             handleDelete={handleDelete}
             handleEdit={handleEdit}
             handleUpdate={handleUpdate}
+            handleComplete={handleComplete}
+            handleUncomplete={handleUncomplete}
           />
         ))}
       </ul>
