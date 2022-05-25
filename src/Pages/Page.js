@@ -13,19 +13,22 @@ const DoPage = () => {
     setToDo(e.target.value);
   };
 
-  const handleEdit = (key) => {
-    setItems((prevState) =>
-      prevState.map((item) =>
-        item.id === key ? { ...item, edited: true } : item
-      )
-    );
-  };
-
   const handleUpdate = (value, key) => {
-    setItems((prevState) =>
-      prevState.map((item) =>
-        item.id === key ? { ...item, edited: false, title: value } : item
-      )
+    // setItems((prevState) =>
+    //   prevState.map((item) =>
+    //     item.id === key ? { ...item, title: value } : item
+    //   )
+    // );
+
+    //const items2 = items;
+    // const findItem = (item) => item.id === key;
+    // const foundIndex = items.findIndex(findItem);
+    // console.log(foundIndex);
+    // items[foundIndex] = { id: key, title: value, completed: false };
+    // console.log(items);
+    //setItems(items);
+    setItems(
+      items.map((item) => (item.id === key ? { ...item, title: value } : item))
     );
   };
 
@@ -60,7 +63,6 @@ const DoPage = () => {
     const newItem = {
       id: lastId + 1,
       title: toDo,
-      edited: false,
       completed: false,
     };
     if (newItem.title !== "") {
@@ -138,7 +140,6 @@ const DoPage = () => {
             key={item.id}
             item={item}
             handleDelete={handleDelete}
-            handleEdit={handleEdit}
             handleUpdate={handleUpdate}
             handleComplete={handleComplete}
             handleUncomplete={handleUncomplete}

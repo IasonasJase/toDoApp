@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const ListItem = (props) => {
   const [input, setInput] = useState(props.item.title);
+  const [hidden, setHidden] = useState(false);
   const handleInput = (e) => {
     setInput(e.target.value);
   };
@@ -18,7 +19,7 @@ const ListItem = (props) => {
     >
       <span
         className={
-          !item.edited
+          !hidden
             ? "todo-collection__item__title"
             : "todo-collection__item__title hidden"
         }
@@ -28,18 +29,17 @@ const ListItem = (props) => {
       <input
         value={input}
         id={item.id}
-        className={
-          !item.edited ? "hidden input input--todo" : "input input--todo"
-        }
+        className={!hidden ? "hidden input input--todo" : "input input--todo"}
         onChange={handleInput}
       ></input>
       <button
         type="submit"
         onClick={() => {
           props.handleUpdate(input, item.id);
+          setHidden(false);
         }}
         className={
-          !item.edited
+          !hidden
             ? "button button--todo button--save hidden"
             : "button button--todo button--save"
         }
@@ -47,9 +47,9 @@ const ListItem = (props) => {
         Save
       </button>
       <button
-        onClick={() => props.handleEdit(item.id)}
+        onClick={() => setHidden(true)}
         className={
-          !item.edited
+          !hidden
             ? "button button--todo button--edit "
             : "button button--todo button--edit hidden"
         }
