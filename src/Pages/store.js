@@ -2,16 +2,17 @@ import { createStore } from "redux";
 import { combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { TodoReducer } from "./TodoReducers";
+import { todoReducer } from "./todoReducers";
+import { saveState, loadState } from "./localstorage";
+import throttle from "lodash.throttle";
 
 const reducer = combineReducers({
-  Todo: TodoReducer,
+  todos: todoReducer,
 });
-
-const initialState = {};
 
 const middleware = [thunk];
 
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
+const store = createStore(reducer, loadState(), composeWithDevTools(applyMiddleware(...middleware)));
 
+store.subscribe(throttle(() => saveState(store.getState()), 1000));
 export default store;

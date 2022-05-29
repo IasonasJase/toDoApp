@@ -3,10 +3,6 @@ import React, { useState } from "react";
 const ListItem = (props) => {
   const [input, setInput] = useState(props.item.title);
   const [hidden, setHidden] = useState(false);
-  const handleInput = (e) => {
-    setInput(e.target.value);
-  };
-
   const { item } = props;
 
   return (
@@ -18,7 +14,7 @@ const ListItem = (props) => {
         value={input}
         id={item.id}
         className={!hidden ? "hidden input input--todo" : "input input--todo"}
-        onChange={handleInput}
+        onChange={(e) => setInput(e.target.value)}
       ></input>
       <button
         type="submit"
@@ -41,7 +37,7 @@ const ListItem = (props) => {
       </button>
       <button
         onClick={() => {
-          props.handleComplete(input, item.id);
+          props.handleComplete(input, item.id, item.completed);
         }}
         className={!item.completed ? "button button--todo button--delete" : "button button--todo button--delete hidden"}
       >
@@ -49,7 +45,7 @@ const ListItem = (props) => {
       </button>
       <button
         onClick={() => {
-          props.handleUncomplete(input, item.id);
+          props.handleUncomplete(input, item.id, item.completed);
         }}
         className={
           !item.completed ? "button button--todo button--delete hidden" : "button button--todo button--delete "
