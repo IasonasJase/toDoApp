@@ -5,7 +5,7 @@ import ListItem from "./ListItem";
 import { addTodoAction, fetchingData, clearTodoAction } from "./todoActions";
 
 const DoPage = () => {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState("");
   const [shake, setShake] = useState(false);
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos);

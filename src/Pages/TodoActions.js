@@ -38,21 +38,9 @@ export const fetchingData = () => async (dispatch) => {
   const response = await fetch(url);
   const data = await response.json();
   const filteredData = data.filter((item) => item.id <= 9);
-  const mapedData = filteredData.map((item) => {
-    delete item.userId;
-    return item;
-  });
 
   dispatch({
     type: FETCHED_TODO,
-    payload: mapedData,
+    payload: filteredData,
   });
 };
-
-// export const addtoStorage = () => async (dispatch) => {
-//   const todos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : [];
-//   dispatch({
-//     type: UPDATE_LOCALSTORAGE,
-//     payload: todos,
-//   });
-// };
