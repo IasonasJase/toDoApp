@@ -2,55 +2,53 @@ import {
   ADD_TODO,
   DELETE_TODO,
   UPDATE_TODO,
-  FETCHING_TODO,
-  COMPLETE_TODO,
-  UNCOMPLETE_TODO,
+  FETCHED_TODO,
+  TOGGLE_TODO,
   CLEAR_TODO,
+  //UPDATE_LOCALSTORAGE,
 } from "./todoActions";
 import { todos } from "./state";
 
 export let todoReducer = (state = todos, action) => {
-  let newTodos;
+  let newTodos, isCompleted, indexSameId, sameId;
   switch (action.type) {
     case ADD_TODO:
-      return [...state, action.payload];
+      const lastElement = state[state.length - 1] || {};
+      let lastId = lastElement.id || 0;
+      const addedTodo = { id: ++lastId, title: action.payload, completed: false };
+      return [...state, addedTodo];
     case DELETE_TODO:
       newTodos = [...state];
       newTodos = newTodos.filter((todo) => todo.id !== action.payload);
       return newTodos;
     case UPDATE_TODO:
-      // newTodos = [...state];
-      // let index = -1;
-      // for (let i = 0; i < newTodos.length; i++) {
-      //   index++;
-      //   if (newTodos[i].id === action.payload.id) {
-      //     break;
-      //   }
-      // }
-      // if (index !== -1) {
-      //   newTodos[index] = action.payload;
-      //   return newTodos;
-      // }
-      // return newTodos;
-      newTodos = state.map((item) => (item.id === action.payload.id ? { ...item, title: action.payload.title } : item));
+      newTodos = [...state];
+      sameId = (element) => element.id === action.payload.id;
+      indexSameId = newTodos.findIndex(sameId);
+      isCompleted = newTodos[indexSameId].completed;
+      newTodos[indexSameId] = { id: action.payload.id, title: action.payload.title, completed: isCompleted };
       return newTodos;
-    case COMPLETE_TODO:
-      newTodos = state.map((item) =>
-        item.id === action.payload.id ? { ...item, completed: action.payload.completed } : item
-      );
+    case TOGGLE_TODO:
+      //2 ways of toggling/2nd way faster
+      //newTodos = state.map((item) => (item.id === action.payload ? { ...item, completed: !item.completed } : item));
+      newTodos = [...state];
+      sameId = (element) => element.id === action.payload;
+      indexSameId = newTodos.findIndex(sameId);
+      isCompleted = newTodos[indexSameId].completed;
+      const titleofTodo = newTodos[indexSameId].title;
+      newTodos[indexSameId] = { id: action.payload, title: titleofTodo, completed: !isCompleted };
       return newTodos;
 
-    case UNCOMPLETE_TODO:
-      newTodos = state.map((item) =>
-        item.id === action.payload.id ? { ...item, completed: action.payload.completed } : item
-      );
-      return newTodos;
-
-    case FETCHING_TODO:
+    case FETCHED_TODO:
       return [...state, ...action.payload];
 
     case CLEAR_TODO:
-      return action.payload;
+      return [];
+
+    // case UPDATE_LOCALSTORAGE:
+    //   newTodos = [...state];
+    //   localStorage.setItem("todos", newTodos);
+    //   return newTodos;
 
     default:
       return state;

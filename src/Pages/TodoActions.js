@@ -1,18 +1,14 @@
 export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";
-export const COMPLETE_TODO = "COMPLETE_TODO";
-export const UNCOMPLETE_TODO = "UNCOMPLETE_TODO";
-export const FETCHING_TODO = "FETCH_TODO";
+export const TOGGLE_TODO = "TOGGLE_TODO";
+export const FETCHED_TODO = "FETCHED_TODO";
 export const CLEAR_TODO = "CLEAR_TODO";
+export const UPDATE_LOCALSTORAGE = "ADD_TO_LOCALSTORAGE";
 
-export const addTodoAction = (id, content) => ({
+export const addTodoAction = (content) => ({
   type: ADD_TODO,
-  payload: {
-    id: ++id,
-    title: content,
-    completed: false,
-  },
+  payload: content,
 });
 
 export const removeTodoAction = (key) => ({
@@ -25,31 +21,16 @@ export const updateTodoAction = (value, key) => ({
   payload: {
     id: key,
     title: value,
-    completed: false,
   },
 });
 
-export const completeTodoAction = (value, key, completed) => ({
-  type: COMPLETE_TODO,
-  payload: {
-    id: key,
-    title: value,
-    completed: !completed,
-  },
-});
-
-export const uncompleteTodoAction = (value, key, completed) => ({
-  type: UNCOMPLETE_TODO,
-  payload: {
-    id: key,
-    title: value,
-    completed: !completed,
-  },
+export const toggleTodoAction = (key) => ({
+  type: TOGGLE_TODO,
+  payload: key,
 });
 
 export const clearTodoAction = () => ({
   type: CLEAR_TODO,
-  payload: [],
 });
 
 export const fetchingData = () => async (dispatch) => {
@@ -63,7 +44,15 @@ export const fetchingData = () => async (dispatch) => {
   });
 
   dispatch({
-    type: FETCHING_TODO,
+    type: FETCHED_TODO,
     payload: mapedData,
   });
 };
+
+// export const addtoStorage = () => async (dispatch) => {
+//   const todos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : [];
+//   dispatch({
+//     type: UPDATE_LOCALSTORAGE,
+//     payload: todos,
+//   });
+// };

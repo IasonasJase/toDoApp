@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeTodoAction, updateTodoAction, toggleTodoAction } from "./todoActions";
 
 const ListItem = (props) => {
   const [input, setInput] = useState(props.item.title);
   const [hidden, setHidden] = useState(false);
+  const dispatch = useDispatch();
   const { item } = props;
 
   return (
@@ -19,7 +22,7 @@ const ListItem = (props) => {
       <button
         type="submit"
         onClick={() => {
-          props.handleUpdate(input, item.id);
+          dispatch(updateTodoAction(input, item.id));
           setHidden(false);
         }}
         className={!hidden ? "button button--todo button--save hidden" : "button button--todo button--save"}
@@ -32,24 +35,14 @@ const ListItem = (props) => {
       >
         Edit
       </button>
-      <button onClick={() => props.handleDelete(item.id)} className="button button--todo button--delete">
+      <button onClick={() => dispatch(removeTodoAction(item.id))} className="button button--todo button--delete">
         Delete
       </button>
       <button
         onClick={() => {
-          props.handleComplete(input, item.id, item.completed);
+          dispatch(toggleTodoAction(item.id));
         }}
-        className={!item.completed ? "button button--todo button--delete" : "button button--todo button--delete hidden"}
-      >
-        Complete
-      </button>
-      <button
-        onClick={() => {
-          props.handleUncomplete(input, item.id, item.completed);
-        }}
-        className={
-          !item.completed ? "button button--todo button--delete hidden" : "button button--todo button--delete "
-        }
+        className="button button--todo button--delete"
       >
         Complete
       </button>

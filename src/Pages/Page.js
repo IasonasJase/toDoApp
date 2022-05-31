@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import "./Pagecss.css";
 import { useDispatch, useSelector } from "react-redux";
 import ListItem from "./ListItem";
-import {
-  addTodoAction,
-  removeTodoAction,
-  updateTodoAction,
-  fetchingData,
-  completeTodoAction,
-  uncompleteTodoAction,
-  clearTodoAction,
-} from "./todoActions";
+import { addTodoAction, fetchingData, clearTodoAction } from "./todoActions";
 
 const DoPage = () => {
   const [title, setTitle] = useState();
@@ -22,10 +14,8 @@ const DoPage = () => {
 
   const addToDo = (e) => {
     e.preventDefault();
-    const lastElement = todos[todos.length - 1] || {};
-    let lastId = lastElement.id || 0;
     if (title.trim().length > 0) {
-      dispatch(addTodoAction(lastId, title));
+      dispatch(addTodoAction(title));
       setShake(false);
     } else {
       setShake(true);
@@ -36,24 +26,8 @@ const DoPage = () => {
     setTitle("");
   };
 
-  const handleDelete = (key) => {
-    dispatch(removeTodoAction(key));
-  };
-
-  const handleUpdate = (value, key) => {
-    dispatch(updateTodoAction(value, key));
-  };
-
   const handleFetch = () => {
     dispatch(fetchingData());
-  };
-
-  const handleComplete = (value, key, completed) => {
-    dispatch(completeTodoAction(value, key, completed));
-  };
-
-  const handleUncomplete = (value, key, completed) => {
-    dispatch(uncompleteTodoAction(value, key, completed));
   };
 
   const handleClear = () => {
@@ -91,19 +65,7 @@ const DoPage = () => {
       <button className="button--todo" onClick={handleClear}>
         Clear
       </button>
-      <ul className="todo-collection">
-        {todos &&
-          todos.map((item) => (
-            <ListItem
-              key={item.id}
-              item={item}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-              handleComplete={handleComplete}
-              handleUncomplete={handleUncomplete}
-            />
-          ))}
-      </ul>
+      <ul className="todo-collection">{todos && todos.map((item) => <ListItem key={item.id} item={item} />)}</ul>
     </main>
   );
 };
