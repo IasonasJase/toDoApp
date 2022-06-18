@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Component renders correctly 1`] = `
+"<main class=\\"wrapper\\">
+  <nav class=\\"navbar\\">
+    <ul class=\\"nav\\">
+      <li class=\\"nav__item\\">TODO</li>
+    </ul>
+  </nav>
+  <form class=\\"todo-form\\">
+    <div class=\\"input-field\\"><input data-testid=\\"input\\" type=\\"text\\" id=\\"input--add\\" class=\\"input\\" placeholder=\\"e.g. Go to the gym\\" value=\\"\\"><label for=\\"input--add\\"></label></div><button data-testid=\\"Add\\" type=\\"submit\\" class=\\"button button--add\\">Add</button>
+  </form>
+  <div class=\\"nav nav__item\\"><button data-testid=\\"Fetch\\" class=\\"button--todo\\">Fetch</button></div><button class=\\"button--todo\\">Clear</button>
+  <ul class=\\"todo-collection\\" data-testid=\\"testidforli\\"></ul>
+</main>"
+`;

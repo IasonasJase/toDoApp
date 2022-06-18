@@ -44,6 +44,7 @@ const DoPage = () => {
       <form className={!shake ? "todo-form" : "todo-form shake-horizontal"} onSubmit={addToDo}>
         <div className="input-field">
           <input
+            data-testid="input"
             type="text"
             id="input--add"
             className="input"
@@ -53,19 +54,21 @@ const DoPage = () => {
           />
           <label htmlFor="input--add"></label>
         </div>
-        <button type="submit" className="button button--add">
+        <button data-testid="Add" type="submit" className="button button--add">
           Add
         </button>
       </form>
       <div className="nav nav__item">
-        <button className="button--todo" onClick={handleFetch}>
+        <button data-testid="Fetch" className="button--todo" onClick={handleFetch}>
           Fetch
         </button>
       </div>
       <button className="button--todo" onClick={handleClear}>
         Clear
       </button>
-      <ul className="todo-collection">{todos && todos.map((item) => <ListItem key={item.id} item={item} />)}</ul>
+      <ul className="todo-collection" data-testid="testidforli">
+        {todos && todos.map((item) => <ListItem key={item.id} item={item} />)}
+      </ul>
     </main>
   );
 };

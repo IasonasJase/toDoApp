@@ -9,7 +9,7 @@ const ListItem = (props) => {
   const { item } = props;
 
   return (
-    <li className={!item.completed ? "todo-collection__item " : "todo-collection__item fade"}>
+    <li data-testid={item.id} className={!item.completed ? "todo-collection__item " : "todo-collection__item fade"}>
       <span className={!hidden ? "todo-collection__item__title" : "todo-collection__item__title hidden"}>
         {item.title}
       </span>
@@ -35,7 +35,11 @@ const ListItem = (props) => {
       >
         Edit
       </button>
-      <button onClick={() => dispatch(removeTodoAction(item.id))} className="button button--todo button--delete">
+      <button
+        data-testid={`Delete${item.id}`}
+        onClick={() => dispatch(removeTodoAction(item.id))}
+        className="button button--todo button--delete"
+      >
         Delete
       </button>
       <button
